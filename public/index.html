@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ساعت آنالوگ</title>
+    <link rel="stylesheet" href="./styles/app.css">
+    <script src="./plugins/alpine.js" defer></script>
+</head>
+
+<body>
+    <div x-data="{
+        sec: 0,
+        min: 0,
+        hou: 0,
+        formated: '00:00:00',
+        run(){
+            setInterval(() => {
+                let dateTime = new Date();
+                this.sec = dateTime.getSeconds();
+                this.min = dateTime.getMinutes();
+                this.hou = (dateTime.getMinutes() / 12) + (dateTime.getHours() * 5)
+                this.formated = `${dateTime.getHours() + ':' + this.min + ':' + this.sec}`;
+            }, 1000);
+        }
+    }" x-init="$nextTick(() => $dispatch(run()))" class="h-screen w-full bg-gray-100">
+        <img class="absolute h-screen w-full" src="./images/GLk9IXx.jpg" alt="wallpaper">
+        <div class="container mx-auto h-screen flex flex-col gap-9 items-center justify-center">
+            <div class="relative w-[50vw] h-[50vw] sm:w-[40vw] sm:h-[40vw] md:w-[30vw] md:h-[30vw] lg:w-[25vw] lg:h-[25vw] bg-gray-600 rounded-full overflow-hidden text-gray-50 border-4 border-gray-900">
+
+                <!--start loop for seconds gear -->
+                <template x-for="i in 30">
+                    <div :id="`sec-den-${i}`" :style="`transform: rotate(${i * 6}deg)`" class="absolute left-0 top-[50%] -translate-x-1/2 -translate-y-1/2 w-full h-[1px] bg-white"></div>
+                </template>
+                <!--end loop for seconds gear -->
+
+                <!-- start seconds backdrop -->
+                <div class="absolute left-1/2 top-1/2 w-[95%] h-[95%] -translate-y-1/2 -translate-x-1/2 rounded-full bg-gray-600"></div>
+                <!-- end seconds backdrop -->
+
+                <!--start loop for minutes gear -->
+                <template x-for="i in 6">
+                    <div :style="`transform: rotate(${i * 30}deg)`" class="absolute left-0 top-[50%] -translate-x-1/2 -translate-y-1/2 w-full h-[3px] bg-red-600"></div>
+                </template>
+                <!--end loop for minutes gear -->
+
+                <!-- start minutes backdrop -->
+                <div class="absolute left-1/2 top-1/2 w-[90%] h-[90%] -translate-y-1/2 -translate-x-1/2 rounded-full bg-gray-600 border-4 border-red-600">
+                    <!--start numbers -->
+                    <div class="absolute font-bold text-xl sm:text-3xl md:text-5xl left-1/2 bottom-5 -translate-x-1/2 translate-y-1/2 pb-2">6</div>
+                    <div class="absolute font-bold text-xl sm:text-3xl md:text-5xl left-1/2 top-5 -translate-x-1/2 -translate-y-1/2">12</div>
+                    <div class="absolute font-bold text-xl sm:text-3xl md:text-5xl left-4   top-1/2 -translate-x-1/2 -translate-y-1/2">9</div>
+                    <div class="absolute font-bold text-xl sm:text-3xl md:text-5xl right-4  top-1/2 translate-x-1/2 -translate-y-1/2">3</div>
+                    <!--end numbers -->
+                </div>
+                <!-- end minutes backdrop -->
+
+                <!-- start digit clock -->
+                <span class="hidden sm:block sm:absolute top-2/3 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xl font-bold border-4 border-gray-400 rounded-md p-1 lg:p-2 min-w-[119px] text-center" x-text="formated">00:00:00</span>
+                <!-- end digit clock -->
+
+                <!-- start hands -->
+                <div :style="{transform: `rotate(${sec * 6}deg)`}" class="absolute left-1/2 top-[6%] h-[44%] border-x border-red-600" style="transform-origin: bottom center;"></div>
+                <div :style="{transform: `rotate(${min * 6}deg)`}" class="absolute left-1/2 top-[6%] h-[44%] border-x" style="transform-origin: bottom center;"></div>
+                <div :style="{transform: `rotate(${hou * 6}deg)`}" class="absolute left-1/2 top-[15%] h-[35%] border-x" style="transform-origin: bottom center;"></div>
+                <!-- end hands -->
+
+                <!-- start hands backdrop-->
+                <div class="absolute left-1/2 top-1/2 w-[5%] h-[5%] -translate-y-1/2 -translate-x-1/2 rounded-full bg-red-600 shadow-sm shadow-gray-500"></div>
+                <!-- end hands backdrop-->
+            </div>
+
+            <!-- start digit clock -->
+            <span class="block sm:hidden text-xl font-bold border-4 border-gray-400 rounded-md p-1 lg:p-2 min-w-[119px] text-center" x-text="formated">00:00:00</span>
+            <!-- end digit clock -->
+
+        </div>
+    </div>
+    <script src="./js/app.js"></script>
+</body>
+
+</html>
